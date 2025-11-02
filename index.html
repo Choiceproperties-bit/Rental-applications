@@ -1360,7 +1360,7 @@
 /* ============================================================
    CONFIG
    ============================================================ */
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJESB6Fx9LqOGhZfjqRjvwaVM5YyslMRiCBsIBIXsJlxpfMbCNRgYqSPUqgh1U_5M/exec';
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxOdpkH0UAO6WbC1OhcQ4B9e7tNQAdYr4QVbJuLvgpXtbef5HKChYFV4QENO0wxmPUw/exec';
 const LOCAL_STORAGE_KEY = "choicePropertiesRentalApp";
 
 /* ============================================================
@@ -1546,14 +1546,13 @@ async function submitApplication() {
       submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Submitting...`;
     }
 
-    // === TEST: Bypass CORS to confirm issue ===
-const resp = await fetch("https://cors-anywhere.herokuapp.com/" + APP_SCRIPT_URL, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(data)
-});
+    const resp = await fetch(APP_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
 
-alert("✅ Request sent via proxy. If your Google Sheet updates, CORS is the issue.");
+    const result = await resp.json();
 
     if (result.success) {
       clearSavedProgress();
