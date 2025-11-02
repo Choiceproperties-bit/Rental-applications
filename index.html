@@ -1546,13 +1546,14 @@ async function submitApplication() {
       submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Submitting...`;
     }
 
-    const resp = await fetch(APP_SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
+    // === TEST: Bypass CORS to confirm issue ===
+const resp = await fetch("https://cors-anywhere.herokuapp.com/" + APP_SCRIPT_URL, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(data)
+});
 
-    const result = await resp.json();
+alert("✅ Request sent via proxy. If your Google Sheet updates, CORS is the issue.");
 
     if (result.success) {
       clearSavedProgress();
